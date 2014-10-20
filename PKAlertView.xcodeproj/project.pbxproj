@@ -13,7 +13,7 @@
 		162A567219F46604007B243E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 162A567119F46604007B243E /* Images.xcassets */; };
 		162A567519F46604007B243E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 162A567319F46604007B243E /* LaunchScreen.xib */; };
 		162A568119F46604007B243E /* PKAlertViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 162A568019F46604007B243E /* PKAlertViewTests.m */; };
-		164CC40919F468D300CEA4A5 /* PKAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 164CC40819F468D300CEA4A5 /* PKAlert.m */; };
+		164CC40919F468D300CEA4A5 /* PKAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 164CC40819F468D300CEA4A5 /* PKAlertView.m */; };
 		CFFF498EE96A155BCD04EF82 /* libPods-PKAlertView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B26983302BC6B38C0FA2198C /* libPods-PKAlertView.a */; };
 /* End PBXBuildFile section */
 
@@ -40,8 +40,8 @@
 		162A567A19F46604007B243E /* PKAlertViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PKAlertViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		162A567F19F46604007B243E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		162A568019F46604007B243E /* PKAlertViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKAlertViewTests.m; sourceTree = "<group>"; };
-		164CC40719F468D300CEA4A5 /* PKAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAlert.h; sourceTree = "<group>"; };
-		164CC40819F468D300CEA4A5 /* PKAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKAlert.m; sourceTree = "<group>"; };
+		164CC40719F468D300CEA4A5 /* PKAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAlertView.h; sourceTree = "<group>"; };
+		164CC40819F468D300CEA4A5 /* PKAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKAlertView.m; sourceTree = "<group>"; };
 		6A5685A64D27E2B203B7E2A3 /* Pods-PKAlertView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PKAlertView.release.xcconfig"; path = "Pods/Target Support Files/Pods-PKAlertView/Pods-PKAlertView.release.xcconfig"; sourceTree = "<group>"; };
 		B26983302BC6B38C0FA2198C /* libPods-PKAlertView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PKAlertView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB6F14A0F8368603D2620C1C /* Pods-PKAlertView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PKAlertView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PKAlertView/Pods-PKAlertView.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,8 +130,8 @@
 		164CC40619F4686600CEA4A5 /* PKAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				164CC40719F468D300CEA4A5 /* PKAlert.h */,
-				164CC40819F468D300CEA4A5 /* PKAlert.m */,
+				164CC40719F468D300CEA4A5 /* PKAlertView.h */,
+				164CC40819F468D300CEA4A5 /* PKAlertView.m */,
 			);
 			path = PKAlertView;
 			sourceTree = "<group>";
@@ -289,7 +289,7 @@
 			files = (
 				162A566D19F46604007B243E /* ViewController.m in Sources */,
 				162A566A19F46604007B243E /* AppDelegate.m in Sources */,
-				164CC40919F468D300CEA4A5 /* PKAlert.m in Sources */,
+				164CC40919F468D300CEA4A5 /* PKAlertView.m in Sources */,
 				162A566719F46604007B243E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

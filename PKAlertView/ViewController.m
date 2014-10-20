@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import <Masonry/Masonry.h>
-#import "PKAlert.h"
+#import "PKAlertView.h"
 #import <FXBlurView/FXBlurView.h>
 
 @interface ViewController ()
@@ -59,22 +59,20 @@
 
 - (void)showAlert
 {
+    PKAlertView *alertView = [[PKAlertView alloc] initWithTitle:[[NSMutableAttributedString alloc] initWithString:@"Title"]
+                                                    description:[[NSMutableAttributedString alloc] initWithString:@"Super description"]
+                                              cancelButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"cancel"]
+                                              actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
+                                           withCancelCompletion:^{
+        
+                                        } withActionCompletion:^{
+                                            
+                                        }];
     
-    PKAlert *alertView = [[PKAlert alloc] initWithTitle:@"my title"
-                                                message:@"my messawer woierj wiejr woeijr iowjer "
-                                      cancelButtonTitle:@"cancel"
-                                      actionButtonTitle:@"OK"
-                                   withCancelCompletion:^{
-                                                        NSLog(@"cancel");
-                                } withActionCompletion:^{
-                                                        NSLog(@"action");
-                                                    }];
-
-    
-    alertView.tintColor = [UIColor blackColor];
-    alertView.backgroundBlurColorView.backgroundColor = [UIColor blackColor];
-    alertView.backgroundBlurColorView.alpha = 0.8;
-    alertView.messageLabel.text = @"werokerp okwepro kwepork wepokr pek wepork wepor kwpoekr pwoekr powekr powekr powekr pwoekr powekr powekr powekr poewkrp owekrp okwerpo kwerpok wepork wpeokr pwoekr pweokr pweokr pweokrp wkerpok wepork wpeokr powekr powekr wokr pwoekr pwoekrp owkeeopwkr ";
+//    alertView.tintColor = [UIColor blackColor];
+//    alertView.backgroundBlurColorView.backgroundColor = [UIColor blackColor];
+//    alertView.backgroundBlurColorView.alpha = 0.8;
+//    alertView.descriptionLabel.text = @"werokerp okwepro kwepork wepokr pek wepork wepor kwpoekr pwoekr powekr powekr powekr pwoekr powekr powekr powekr poewkrp owekrp okwerpo kwerpok wepork wpeokr pwoekr pweokr pweokr pweokrp wkerpok wepork wpeokr powekr powekr wokr pwoekr pwoekrp owkeeopwkr ";
     [alertView show];
     NSLog(@"test");
     NSLog(@"%@",alertView);
