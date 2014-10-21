@@ -43,17 +43,99 @@ PKAlertView properties
 
 PKAlertView supports two types of alert.
 
-### PKAlertViewType ###
+#### alertViewType
 
 * `PKAlertViewPlain` :Title + message + buttons.
 * `PKAlertViewTextField` : Title + message + buttons + UITextField.
 
-### PKAlertViewAnimationStyle ###
+```objective-c
+
+- (void)simpleAlert
+{
+   ...
+   alertView.alertViewType = PKAlertViewPlain;
+   ...
+}
+
+```
+
+#### enterAnimationStyle
 
 * `PKAlertViewPopup` : The PKAlertView will popup from the center of the screen.
 * `PKAlertViewSlideDown` : The PKAlertView will slide from the top of the screen.
 
+```objective-c
 
+- (void)simpleAlert
+{
+   ...
+   alertView.enterAnimationStyle = PKAlertViewPopup;
+   ...
+}
 
+```
 
+#### blurColor
+
+* The color of the blur in the background, use some alpha to let the background appear.
+
+```objective-c
+
+- (void)simpleAlert
+{
+   ...
+   alertView.blurColor =  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+   ...
+}
+
+```
+
+#### bordersColor
+
+* The border of the button + the UITextField.
+
+```objective-c
+
+- (void)simpleAlert
+{
+   ...
+   alertView.bordersColor =  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+   ...
+}
+
+```
+
+#### alertBackgroundColor
+
+* The background of the alert box.
+
+```objective-c
+
+- (void)simpleAlert
+{
+   ...
+   alertView.alertBackgroundColor =  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+   ...
+}
+
+```
+
+#### cornerRadius
+
+* The corner radius of the alert box.
+
+```objective-c
+
+- (void)simpleAlert
+{
+   ...
+   alertView.cornerRadius =  10;
+   ...
+}
+
+```
+
+#### textField
+
+* The textField when using `PKAlertViewTextField`
 
