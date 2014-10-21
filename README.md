@@ -95,6 +95,21 @@ PKAlertView supports two types of alert :
 
 ```
 
+#### blurRadius
+
+* Control the blur of the background
+
+```objective-c
+
+- (void)simpleAlert
+{
+   ...
+   alertView.blurRadius =  20;
+   ...
+}
+
+```
+
 #### blurColor
 
 * The color of the blur in the background, use some alpha to let the background appear.
