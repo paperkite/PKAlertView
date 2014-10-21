@@ -17,7 +17,7 @@ Now you're set to go!
  PKAlertView uses `initWithType:​Title:​description:​cancelButtonTitle:​actionButtonTitle:​withCancelCompletion:​withActionCompletion:`  and `show` methods to create and display your alert view. 
  From there PKAlertView handles laying out and animating the view. 
 
-Lets see some code:
+AlertView with two buttons and UITextField :
 
 ```objective-c
 
@@ -38,12 +38,32 @@ Lets see some code:
 
 ```
 
+AlertView with single button :
+
+```objective-c
+
+- (void)simpleAlert
+{
+    PKAlertView *alertView = [[PKAlertView alloc]  initWithType:PKAlertViewTextField
+                                                          title:[[NSMutableAttributedString alloc] initWithString:@"Bonjour"]
+                                                    description:[[NSMutableAttributedString alloc] initWithString:@"Comment allez-vous ?"]
+                                              actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
+                                           withActionCompletion:^{
+                                               
+                                           }];
+    
+    [alertView show];
+}
+
+```
+
 PKAlertView properties
 ----------------
 
-PKAlertView supports two types of alert.
 
 #### alertViewType
+
+PKAlertView supports two types of alert :
 
 * `PKAlertViewPlain` :Title + message + buttons.
 * `PKAlertViewTextField` : Title + message + buttons + UITextField.
