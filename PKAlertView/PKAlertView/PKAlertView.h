@@ -25,7 +25,8 @@ typedef NS_ENUM(NSInteger, PKAlertViewAnimationStyle) {
 @property (nonatomic, strong) UIColor *bordersColor; // color of the button border background
 @property (nonatomic, strong) UIColor *alertBackgroundColor; // color of the alert background
 
-@property (nonatomic, assign) float cornerRadius;
+@property (nonatomic, assign) int cornerRadius;
+@property (nonatomic, assign) int textPadding;
 
 @property (nonatomic, strong) UITextField *textField;
 

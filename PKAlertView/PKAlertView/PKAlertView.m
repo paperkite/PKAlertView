@@ -32,7 +32,6 @@
 
 @end
 
-const int kPadding = 25;
 const int kAlertPadding = 45;
 
 @implementation PKAlertView
@@ -40,6 +39,7 @@ const int kAlertPadding = 45;
 @synthesize bordersColor = _bordersColor;
 @synthesize alertBackgroundColor = _alertBackgroundColor; 
 @synthesize cornerRadius = _cornerRadius;
+@synthesize textPadding = _textPadding;
 
 - (instancetype)initWithType:(PKAlertViewType)type title:(NSAttributedString *)title description:(NSAttributedString *)description cancelButtonTitle:(NSAttributedString *)cancelButtonTitle actionButtonTitle:(NSAttributedString *)actionButtonTitle withCancelCompletion:(void (^)())cancelBlock withActionCompletion:(void (^)(NSString *textFieldString))actionBlock
 {
@@ -101,6 +101,7 @@ const int kAlertPadding = 45;
 {
     [self addSubview:self.backgroundBlurColorView];
     
+    self.alertView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.alertView addSubview:self.titleLabel];
     [self.alertView addSubview:self.descriptionLabel];
     [self.alertView addSubview:self.actionButton];
@@ -115,11 +116,9 @@ const int kAlertPadding = 45;
     }
 }
 
-- (void)updateConstraints
+- (void)layoutSubviews
 {
-    [super updateConstraints];
-    
-    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.superview);
     }];
     
@@ -131,59 +130,68 @@ const int kAlertPadding = 45;
         make.centerX.equalTo(self.alertView.superview);
         make.centerY.equalTo(self.alertView.superview).with.offset(self.alertViewOffSet);
         make.width.equalTo(self.alertView.superview.mas_width).with.offset(-kAlertPadding);
-        make.height.equalTo(self.descriptionLabel.mas_height).with.offset(42*3 + kPadding); // title height + button height + textField
+        make.bottom.equalTo(self.actionButton.mas_bottom).with.offset(-1);
     }];
-    
+
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.superview).with.offset(kPadding-10);
+        make.top.equalTo(self.titleLabel.superview).with.offset(self.textPadding);
         make.centerX.equalTo(self.titleLabel.superview);
         make.width.equalTo(self.alertView.mas_width);
         make.height.equalTo(@42);
     }];
 
     [self.descriptionLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(kPadding-10);
-        make.width.equalTo(self.alertView.mas_width).with.offset(-kPadding);
+        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(0);
+        make.width.equalTo(self.alertView.mas_width).with.offset(-self.textPadding);
         make.centerX.equalTo(self.alertView);
     }];
-    
+
+    // if there is a textField
+    if (self.alertViewType == PKAlertViewTextField) {
+        
+        [self.textField mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.descriptionLabel.mas_bottom).with.offset(self.textPadding);
+            make.left.equalTo(self.alertView.mas_left).with.offset(self.textPadding); // hide left border
+            make.right.equalTo(self.alertView.mas_right).with.offset(-self.textPadding); // hide left border
+            make.height.equalTo(@30);
+        }];
+
+    }
+
     // if there is a cancel title update the button
     if (self.cancelButtonTitle) {
         
         [self.cancelButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.alertView.mas_bottom).offset(1);
             make.left.equalTo(self.alertView.mas_left).offset(-1);
             make.width.equalTo(self.alertView.mas_width).dividedBy(2).offset(2);
-            make.height.equalTo(@42);
+            make.height.equalTo(self.actionButton.mas_height);
+
+            if (self.alertViewType == PKAlertViewTextField) {
+                make.top.equalTo(self.textField.mas_bottom).with.offset(self.textPadding);
+            } else {
+                make.top.equalTo(self.descriptionLabel.mas_bottom).with.offset(self.textPadding);
+            }
         }];
     }
-    
+
     [self.actionButton mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.alertView.mas_bottom).with.offset(1);
         make.right.equalTo(self.alertView.mas_right).with.offset(1); // hide left border
         make.height.equalTo(@42);
 
+        if (self.alertViewType == PKAlertViewTextField) {
+            make.top.equalTo(self.textField.mas_bottom).with.offset(self.textPadding);
+        } else {
+            make.top.equalTo(self.descriptionLabel.mas_bottom).with.offset(self.textPadding);
+        }
+        
         if (self.cancelButtonTitle) {
             make.width.equalTo(self.alertView.mas_width).dividedBy(2).offset(1);
         } else {
             make.width.equalTo(self.alertView.mas_width).with.offset(3); // hide borders
         }
     }];
-    
-    // if there is a textField
-    if (self.alertViewType == PKAlertViewTextField) {
-        
-        [self.textField mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.descriptionLabel.mas_bottom).with.offset(kPadding);
-            make.left.equalTo(self.alertView.mas_left).with.offset(kPadding); // hide left border
-            make.right.equalTo(self.alertView.mas_right).with.offset(-kPadding); // hide left border
-            make.height.equalTo(@30);
-        }];
-        
-        [self.alertView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.equalTo(self.descriptionLabel.mas_height).with.offset(42*3 + kPadding + 40); // title height + button height + textField
-        }];
-    }
+
+    [super layoutSubviews];
 }
 
 # pragma mark - Show / Hide
@@ -197,7 +205,7 @@ const int kAlertPadding = 45;
     [self addSubview:self.alertView];
     [window addSubview:self];
     
-    [self updateConstraints];
+    [self layoutSubviews];
 
     [UIView animateWithDuration:0.45f
                      animations:^{
@@ -272,16 +280,16 @@ const int kAlertPadding = 45;
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.y"];
     
     NSMutableArray * positionYValues = [NSMutableArray array];
-    [positionYValues addObject:[NSNumber numberWithFloat:0]];
-    [positionYValues addObject:[NSNumber numberWithFloat:([[UIScreen mainScreen] bounds].size.height/2) + 20]];
-    [positionYValues addObject:[NSNumber numberWithFloat:([[UIScreen mainScreen] bounds].size.height/2)]];
+    [positionYValues addObject:[NSNumber numberWithDouble:0]];
+    [positionYValues addObject:[NSNumber numberWithDouble:([[UIScreen mainScreen] bounds].size.height/2) + 20]];
+    [positionYValues addObject:[NSNumber numberWithDouble:([[UIScreen mainScreen] bounds].size.height/2)]];
 
     [animation setValues:positionYValues];
     
     NSArray *frameTimes = [NSArray arrayWithObjects:
-                           [NSNumber numberWithFloat:0.0],
-                           [NSNumber numberWithFloat:0.6],
-                           [NSNumber numberWithFloat:1.0],
+                           [NSNumber numberWithFloat:0.0f],
+                           [NSNumber numberWithFloat:0.6f],
+                           [NSNumber numberWithFloat:1.0f],
                            nil];
     [animation setKeyTimes:frameTimes];
     
@@ -307,27 +315,25 @@ const int kAlertPadding = 45;
 }
 
 # pragma mark - Keyboard notification
-
 - (void)keyboardWillChange:(NSNotification *)notification
 {
-
     CGRect keyboardRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
 
-    self.alertViewOffSet = -keyboardRect.size.height;
-    
-    [self setNeedsUpdateConstraints];
-    [self updateConstraintsIfNeeded];
-    
+    self.alertViewOffSet = (long)-keyboardRect.size.height;
+
     [UIView animateWithDuration:0.3 animations:^{
-        [self layoutIfNeeded];
+        [self layoutSubviews];
     }];
 }
 
 # pragma mark - TextField Action
-
 - (void)textFieldFinished:(id)sender
 {
     [sender resignFirstResponder];
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    
 }
 
 # pragma mark - UITextField Protocol
@@ -335,11 +341,8 @@ const int kAlertPadding = 45;
 {
     self.alertViewOffSet = 0;
     
-    [self setNeedsUpdateConstraints];
-    [self updateConstraintsIfNeeded];
-    
     [UIView animateWithDuration:0.3 animations:^{
-        [self layoutIfNeeded];
+        [self layoutSubviews];
     }];
 }
 
@@ -364,12 +367,20 @@ const int kAlertPadding = 45;
     return _alertView;
 }
 
-- (float)cornerRadius
+- (int)cornerRadius
 {
     if (!_cornerRadius) {
         _cornerRadius = 5;
     }
     return _cornerRadius;
+}
+
+- (int)textPadding
+{
+    if (!_textPadding) {
+        _textPadding = 25;
+    }
+    return _textPadding;
 }
 
 - (UIColor *)alertBackgroundColor
@@ -480,12 +491,19 @@ const int kAlertPadding = 45;
 - (void)setAlertBackgroundColor:(UIColor *)alertBackgroundColor
 {
     _alertBackgroundColor = alertBackgroundColor;
+    self.alertView.backgroundColor = alertBackgroundColor;
 }
 
-- (void)setCornerRadius:(float)cornerRadius
+- (void)setCornerRadius:(int)cornerRadius
 {
     _cornerRadius = cornerRadius;
     _alertView.layer.cornerRadius = cornerRadius;
+}
+
+- (void)setTextPadding:(int)textPadding
+{
+    _textPadding = textPadding;
+    [self updateConstraints];
 }
 
 - (void)setBordersColor:(UIColor *)bordersColor
