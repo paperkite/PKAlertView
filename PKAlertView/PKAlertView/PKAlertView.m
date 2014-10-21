@@ -5,7 +5,6 @@
 //  Created by Walig Castain on 20/10/14.
 //  Copyright (c) 2014 Walig Castain. All rights reserved.
 //
-
 #import "PKAlertView.h"
 #import <Masonry/Masonry.h>
 
@@ -26,6 +25,8 @@
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *actionButton;
 
+@property (nonatomic, assign) NSInteger alertViewOffSet;
+
 @property (nonatomic, copy) void (^cancelBlock)();
 @property (nonatomic, copy) void (^actionBlock)();
 
@@ -36,14 +37,22 @@ const int kAlertPadding = 45;
 
 @implementation PKAlertView
 
-- (instancetype)initWithTitle:(NSAttributedString *)title description:(NSAttributedString *)description cancelButtonTitle:(NSAttributedString *)cancelButtonTitle actionButtonTitle:(NSAttributedString *)actionButtonTitle withCancelCompletion:(void (^)())cancelBlock withActionCompletion:(void (^)())actionBlock
+@synthesize bordersColor = _bordersColor;
+@synthesize alertBackgroundColor = _alertBackgroundColor; 
+@synthesize cornerRadius = _cornerRadius;
+
+- (instancetype)initWithType:(PKAlertViewType)type Title:(NSAttributedString *)title description:(NSAttributedString *)description cancelButtonTitle:(NSAttributedString *)cancelButtonTitle actionButtonTitle:(NSAttributedString *)actionButtonTitle withCancelCompletion:(void (^)())cancelBlock withActionCompletion:(void (^)())actionBlock
 {
     self = [super init];
     if (self) {
         
+        self.alertViewOffSet = 0;
         self.blurRadius = 10;
         self.tintColor = [UIColor blackColor];
         
+        self.enterAnimationStyle = PKAlertViewSlideDown;
+        self.alertViewType = type;
+
         self.titleAttributedString = title;
         self.descriptionAttributedString = description;
         
@@ -53,8 +62,36 @@ const int kAlertPadding = 45;
         self.cancelBlock = cancelBlock;
         self.actionBlock = actionBlock;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+
         [self setupView];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithType:(PKAlertViewType)type Title:(NSAttributedString *)title description:(NSAttributedString *)description actionButtonTitle:(NSAttributedString *)actionButtonTitle withActionCompletion:(void (^)())actionBlock
+{
+    self = [super init];
+    if (self) {
         
+        self.alertViewOffSet = 0;
+        self.blurRadius = 10;
+        self.tintColor = [UIColor blackColor];
+        
+        self.enterAnimationStyle = PKAlertViewSlideDown;
+        self.alertViewType = type;
+        
+        self.titleAttributedString = title;
+        self.descriptionAttributedString = description;
+        
+        self.actionButtonTitle = actionButtonTitle;
+        
+        self.actionBlock = actionBlock;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+        
+        [self setupView];
     }
     
     return self;
@@ -66,13 +103,22 @@ const int kAlertPadding = 45;
     
     [self.alertView addSubview:self.titleLabel];
     [self.alertView addSubview:self.descriptionLabel];
-    [self.alertView addSubview:self.cancelButton];
     [self.alertView addSubview:self.actionButton];
+    
+    // if there is a cancel title
+    if (self.cancelButtonTitle) {
+        [self.alertView addSubview:self.cancelButton];
+    }
+    
+    if (self.alertViewType == PKAlertViewTextField) {
+        [self.alertView addSubview:self.textField];
+    }
 }
 
-- (void)layoutInWindow:(UIWindow *)window
+- (void)updateConstraints
 {
-
+    [super updateConstraints];
+    
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.superview);
     }];
@@ -81,40 +127,62 @@ const int kAlertPadding = 45;
         make.size.equalTo(self.backgroundBlurColorView.superview);
     }];
     
-    
     [self.alertView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.alertView.superview);
+        make.centerX.equalTo(self.alertView.superview);
+        make.centerY.equalTo(self.alertView.superview).with.offset(self.alertViewOffSet);
         make.width.equalTo(self.alertView.superview.mas_width).with.offset(-kAlertPadding);
-        make.height.equalTo(self.descriptionLabel.mas_height).with.offset(42*3 + kPadding);
+        make.height.equalTo(self.descriptionLabel.mas_height).with.offset(42*3 + kPadding); // title height + button height + textField
     }];
     
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.superview).with.offset(kPadding-10);
         make.centerX.equalTo(self.titleLabel.superview);
         make.width.equalTo(self.alertView.mas_width);
         make.height.equalTo(@42);
     }];
 
-    [self.descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.descriptionLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(kPadding-10);
         make.width.equalTo(self.alertView.mas_width).with.offset(-kPadding);
         make.centerX.equalTo(self.alertView);
     }];
     
-    [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.alertView.mas_bottom).offset(1);
-        make.left.equalTo(self.alertView.mas_left).offset(-1);
-        make.width.equalTo(self.alertView.mas_width).dividedBy(2);
-        make.height.equalTo(@42);
-    }];
+    // if there is a cancel title update the button
+    if (self.cancelButtonTitle) {
+        
+        [self.cancelButton mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.alertView.mas_bottom).offset(1);
+            make.left.equalTo(self.alertView.mas_left).offset(-1);
+            make.width.equalTo(self.alertView.mas_width).dividedBy(2).offset(2);
+            make.height.equalTo(@42);
+        }];
+    }
     
-    [self.actionButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.actionButton mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.alertView.mas_bottom).with.offset(1);
         make.right.equalTo(self.alertView.mas_right).with.offset(1); // hide left border
-        make.width.equalTo(self.alertView.mas_width).dividedBy(2);
+        make.width.equalTo(self.alertView.mas_width).with.offset(3); // hide borders
         make.height.equalTo(@42);
+
+        if (self.cancelButtonTitle) {
+            make.width.equalTo(self.alertView.mas_width).dividedBy(2).offset(1);
+        }
     }];
     
+    // if there is a textField
+    if (self.alertViewType == PKAlertViewTextField) {
+        
+        [self.textField mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.descriptionLabel.mas_bottom).with.offset(kPadding);
+            make.left.equalTo(self.alertView.mas_left).with.offset(kPadding); // hide left border
+            make.right.equalTo(self.alertView.mas_right).with.offset(-kPadding); // hide left border
+            make.height.equalTo(@30);
+        }];
+        
+        [self.alertView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(self.descriptionLabel.mas_height).with.offset(42*3 + kPadding + 40); // title height + button height + textField
+        }];
+    }
 }
 
 # pragma mark - Show / Hide
@@ -128,7 +196,7 @@ const int kAlertPadding = 45;
     [self addSubview:self.alertView];
     [window addSubview:self];
     
-    [self layoutInWindow:window];
+    [self updateConstraints];
 
     [UIView animateWithDuration:0.45f
                      animations:^{
@@ -139,8 +207,12 @@ const int kAlertPadding = 45;
                          self.alertView.layer.shouldRasterize = NO;
                      }];
     
-
-    [self.alertView.layer addAnimation:[self slideDownAnimation] forKey:@"popup"];
+    
+    if (self.enterAnimationStyle == PKAlertViewSlideDown) {
+        [self.alertView.layer addAnimation:[self slideDownAnimation] forKey:@"popup"];
+    }else {
+        [self.alertView.layer addAnimation:[self popUpAnimation] forKey:@"popup"];
+    }
 }
 
 - (void)hide
@@ -150,10 +222,10 @@ const int kAlertPadding = 45;
     [UIView animateWithDuration:0.45f
                      animations:^{
                          self.alpha = 0;
-                         self.alertView.alpha = 0;
                      }
                      completion:^(BOOL finished) {
                          self.alertView.layer.shouldRasterize = NO;
+                         
                          [self removeFromSuperview];
                      }];
 
@@ -200,14 +272,14 @@ const int kAlertPadding = 45;
     
     NSMutableArray * positionYValues = [NSMutableArray array];
     [positionYValues addObject:[NSNumber numberWithFloat:0]];
-    [positionYValues addObject:[NSNumber numberWithFloat:([[UIScreen mainScreen] bounds].size.height/2) + 30]];
+    [positionYValues addObject:[NSNumber numberWithFloat:([[UIScreen mainScreen] bounds].size.height/2) + 20]];
     [positionYValues addObject:[NSNumber numberWithFloat:([[UIScreen mainScreen] bounds].size.height/2)]];
 
     [animation setValues:positionYValues];
     
     NSArray *frameTimes = [NSArray arrayWithObjects:
                            [NSNumber numberWithFloat:0.0],
-                           [NSNumber numberWithFloat:0.7],
+                           [NSNumber numberWithFloat:0.6],
                            [NSNumber numberWithFloat:1.0],
                            nil];
     [animation setKeyTimes:frameTimes];
@@ -229,7 +301,36 @@ const int kAlertPadding = 45;
 
 - (void)actionButtonAction:(id)sender
 {
+    [self hide];
     self.actionBlock();
+}
+
+- (void)keyboardWillChange:(NSNotification *)notification
+{
+
+    CGRect keyboardRect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+
+    self.alertViewOffSet = -keyboardRect.size.height;
+    
+    [self setNeedsUpdateConstraints];
+    [self updateConstraintsIfNeeded];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        [self layoutIfNeeded];
+    }];
+}
+
+# pragma mark - UITextField Protocol
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.alertViewOffSet = 0;
+    
+    [self setNeedsUpdateConstraints];
+    [self updateConstraintsIfNeeded];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        [self layoutIfNeeded];
+    }];
 }
 
 
@@ -251,6 +352,14 @@ const int kAlertPadding = 45;
         _alertView.layer.masksToBounds = YES;
     }
     return _alertView;
+}
+
+- (float)cornerRadius
+{
+    if (!_cornerRadius) {
+        _cornerRadius = 5;
+    }
+    return _cornerRadius;
 }
 
 - (UIColor *)alertBackgroundColor
@@ -278,7 +387,7 @@ const int kAlertPadding = 45;
 {
     if (!_descriptionLabel) {
         _descriptionLabel = [[UILabel alloc] init];
-        _descriptionLabel.textAlignment = NSTextAlignmentLeft;
+        _descriptionLabel.textAlignment = NSTextAlignmentCenter;
         _descriptionLabel.textColor = [UIColor blackColor];
         _descriptionLabel.font = [UIFont fontWithName:@"Avenir-Black" size:15];
         _descriptionLabel.numberOfLines = 0;
@@ -294,6 +403,7 @@ const int kAlertPadding = 45;
     if (!_cancelButton) {
         _cancelButton = [[UIButton alloc] init];
         _cancelButton.backgroundColor = [UIColor clearColor];
+        _cancelButton.layer.borderColor = self.bordersColor.CGColor;
         _cancelButton.layer.borderWidth = 1.0f;
         [_cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -308,6 +418,7 @@ const int kAlertPadding = 45;
         _actionButton = [[UIButton alloc] init];
         _actionButton.backgroundColor = [UIColor clearColor];
         _actionButton.titleLabel.textColor = [UIColor blackColor];
+        _actionButton.layer.borderColor = self.bordersColor.CGColor;
         _actionButton.layer.borderWidth = 1.0f;
         _actionButton.layer.borderColor = [UIColor blackColor].CGColor;
         [_actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -315,6 +426,35 @@ const int kAlertPadding = 45;
         [_actionButton setAttributedTitle:self.actionButtonTitle forState:UIControlStateNormal];
     }
     return _actionButton;
+}
+
+- (UIColor *)bordersColor
+{
+    if (!_bordersColor) {
+        _bordersColor = [UIColor blackColor];
+    }
+    return _bordersColor;
+}
+
+- (UITextField *)textField
+{
+    if (!_textField) {
+        _textField = [[UITextField alloc] init];
+        _textField.backgroundColor = [UIColor whiteColor];
+        _textField.borderStyle = UITextBorderStyleNone;
+        _textField.layer.borderColor = self.bordersColor.CGColor;
+        _textField.layer.borderWidth =  1.0f;
+        _textField.keyboardType = UIKeyboardTypeDefault;
+        _textField.returnKeyType = UIReturnKeyDone;
+        _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        _textField.leftViewMode = UITextFieldViewModeAlways;
+        _textField.delegate = self;
+        _textField.font = [UIFont fontWithName:@"Avenir-Book" size:15];
+        _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(10,0,7,26)];
+    }
+    return _textField;
+    
 }
 
 #pragma mark - Setters
@@ -328,6 +468,25 @@ const int kAlertPadding = 45;
 - (void)setAlertBackgroundColor:(UIColor *)alertBackgroundColor
 {
     _alertBackgroundColor = alertBackgroundColor;
+}
+
+- (void)setCornerRadius:(float)cornerRadius
+{
+    _cornerRadius = cornerRadius;
+}
+
+- (void)setBordersColor:(UIColor *)bordersColor
+{
+    _bordersColor = bordersColor;
+
+    _actionButton.layer.borderColor = bordersColor.CGColor;
+    [_actionButton setNeedsDisplay];
+    
+    _cancelButton.layer.borderColor = bordersColor.CGColor;
+    [_cancelButton setNeedsDisplay];
+    
+    _textField.layer.borderColor = bordersColor.CGColor;
+    [_textField setNeedsDisplay];
 }
 
 @end
