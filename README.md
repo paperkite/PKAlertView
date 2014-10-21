@@ -19,7 +19,7 @@ Now you're set to go!
 
 AlertView with two buttons and UITextField :
 
-![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/Screenshots/screenshot1.png)
+![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/screenshots/screenshot1.png)
 
 
 ```objective-c
@@ -43,7 +43,7 @@ AlertView with two buttons and UITextField :
 
 AlertView with single button :
 
-![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/Screenshots/screenshot2.png)
+![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/screenshots/screenshot2.png)
 
 ```objective-c
 
@@ -100,8 +100,8 @@ PKAlertView supports two types of alert :
 
 ```
 
-![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/Screenshots/screenshot3.gif)
-![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/Screenshots/screenshot4.gif)
+![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/screenshots/screenshot3.gif)
+![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/screenshots/screenshot4.gif)
 
 #### blurRadius
 
