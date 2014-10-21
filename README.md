@@ -3,16 +3,19 @@ PKAlertView is a drop-in replacement for UIAlertView that allows the developer t
 
 ## Dependencies ##
 https://github.com/Masonry/Masonry
+
 https://github.com/nicklockwood/FXBlurView
 
 ## Installation ##
 
-Simply add PKAlertView.h + PKAlertView.m to your xcode project and `#include PKAlertView.h` in the files you want to use PKAlertView. Now you're set to go!
+Simply add `PKAlertView.h + PKAlertView.m` to your xcode project and `#include PKAlertView.h` in the files you want to use PKAlertView. 
+Now you're set to go!
 
 ## Usage ##
 
  
- PKAlertView uses `initWithType:​Title:​description:​cancelButtonTitle:​actionButtonTitle:​withCancelCompletion:​withActionCompletion:`  and `show` methods to create and display your alert view. From there PKAlertView handles laying out and animating the view. 
+ PKAlertView uses `initWithType:​Title:​description:​cancelButtonTitle:​actionButtonTitle:​withCancelCompletion:​withActionCompletion:`  and `show` methods to create and display your alert view. 
+ From there PKAlertView handles laying out and animating the view. 
 
 Lets see some code:
 
@@ -35,20 +38,20 @@ Lets see some code:
 
 ```
 
+PKAlertView properties
+----------------
 
 PKAlertView supports two types of alert.
 
-PKAlertViewType
---------------------
+### PKAlertViewType ###
 
-### PKAlertViewPlain ###
+* `PKAlertViewPlain` :Title + message + buttons.
+* `PKAlertViewTextField` : Title + message + buttons + UITextField.
 
-Classical AlertView, with title + message + buttons.
+### PKAlertViewAnimationStyle ###
 
-### PKAlertViewTextField ###
-
-AlertView, with title + message + buttons + UITextField.
-
+* `PKAlertViewPopup` : The PKAlertView will popup from the center of the screen.
+* `PKAlertViewSlideDown` : The PKAlertView will slide from the top of the screen.
 
 
 
