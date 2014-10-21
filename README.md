@@ -178,6 +178,11 @@ PKAlertView supports two types of alert :
 
 ```
 
+#### textPadding
+
+* The padding for each text in the PKAlertView
+
+
 #### textField
 
 * The textField when using `PKAlertViewTextField`
