@@ -51,17 +51,26 @@
 - (void)showAlert
 {
  
-    PKAlertView *alertView = [[PKAlertView alloc]  initWithType:PKAlertViewTextField
-                                                           title:[[NSMutableAttributedString alloc] initWithString:@"Bonjour"]
-                                                     description:[[NSMutableAttributedString alloc] initWithString:@"Comment allez-vous ?"]
-                                               cancelButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"Cancel"]
-                                               actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
-                                            withCancelCompletion:^{
-                                                
-                                            } withActionCompletion:^(NSString *textFieldString) {
+//    PKAlertView *alertView = [[PKAlertView alloc]  initWithType:PKAlertViewTextField
+//                                                           title:[[NSMutableAttributedString alloc] initWithString:@"Bonjour"]
+//                                                     description:[[NSMutableAttributedString alloc] initWithString:@"Comment allez-vous ?"]
+//                                               cancelButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"Cancel"]
+//                                               actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
+//                                            withCancelCompletion:^{
+//                                                
+//                                            } withActionCompletion:^(NSString *textFieldString) {
+//
+//                                            }];
+    
+    PKAlertView *alertView = [[PKAlertView alloc]  initWithType:PKAlertViewPlain
+                                                          title:[[NSMutableAttributedString alloc] initWithString:@"Bonjour"]
+                                                    description:[[NSMutableAttributedString alloc] initWithString:@"Comment allez-vous ?"]
+                                              actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
+                                            withActionCompletion:^(NSString *textFieldString) {
+                                               
+                                           }];
 
-                                            }];
-
+    
     [alertView show];
 
 }
