@@ -41,7 +41,7 @@ const int kAlertPadding = 45;
 @synthesize alertBackgroundColor = _alertBackgroundColor; 
 @synthesize cornerRadius = _cornerRadius;
 
-- (instancetype)initWithType:(PKAlertViewType)type Title:(NSAttributedString *)title description:(NSAttributedString *)description cancelButtonTitle:(NSAttributedString *)cancelButtonTitle actionButtonTitle:(NSAttributedString *)actionButtonTitle withCancelCompletion:(void (^)())cancelBlock withActionCompletion:(void (^)())actionBlock
+- (instancetype)initWithType:(PKAlertViewType)type title:(NSAttributedString *)title description:(NSAttributedString *)description cancelButtonTitle:(NSAttributedString *)cancelButtonTitle actionButtonTitle:(NSAttributedString *)actionButtonTitle withCancelCompletion:(void (^)())cancelBlock withActionCompletion:(void (^)(NSString *textFieldString))actionBlock
 {
     self = [super init];
     if (self) {
@@ -70,7 +70,7 @@ const int kAlertPadding = 45;
     return self;
 }
 
-- (instancetype)initWithType:(PKAlertViewType)type Title:(NSAttributedString *)title description:(NSAttributedString *)description actionButtonTitle:(NSAttributedString *)actionButtonTitle withActionCompletion:(void (^)())actionBlock
+- (instancetype)initWithType:(PKAlertViewType)type title:(NSAttributedString *)title description:(NSAttributedString *)description actionButtonTitle:(NSAttributedString *)actionButtonTitle withActionCompletion:(void (^)())actionBlock
 {
     self = [super init];
     if (self) {
@@ -161,11 +161,12 @@ const int kAlertPadding = 45;
     [self.actionButton mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.alertView.mas_bottom).with.offset(1);
         make.right.equalTo(self.alertView.mas_right).with.offset(1); // hide left border
-        make.width.equalTo(self.alertView.mas_width).with.offset(3); // hide borders
         make.height.equalTo(@42);
 
         if (self.cancelButtonTitle) {
             make.width.equalTo(self.alertView.mas_width).dividedBy(2).offset(1);
+        } else {
+            make.width.equalTo(self.alertView.mas_width).with.offset(3); // hide borders
         }
     }];
     
@@ -302,8 +303,10 @@ const int kAlertPadding = 45;
 - (void)actionButtonAction:(id)sender
 {
     [self hide];
-    self.actionBlock();
+    self.actionBlock(self.textField.text);
 }
+
+# pragma mark - Keyboard notification
 
 - (void)keyboardWillChange:(NSNotification *)notification
 {
@@ -318,6 +321,13 @@ const int kAlertPadding = 45;
     [UIView animateWithDuration:0.3 animations:^{
         [self layoutIfNeeded];
     }];
+}
+
+# pragma mark - TextField Action
+
+- (void)textFieldFinished:(id)sender
+{
+    [sender resignFirstResponder];
 }
 
 # pragma mark - UITextField Protocol
@@ -452,6 +462,8 @@ const int kAlertPadding = 45;
         _textField.delegate = self;
         _textField.font = [UIFont fontWithName:@"Avenir-Book" size:15];
         _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(10,0,7,26)];
+        [_textField addTarget:self action:@selector(textFieldFinished:) forControlEvents:UIControlEventEditingDidEndOnExit];
+
     }
     return _textField;
     
@@ -473,6 +485,7 @@ const int kAlertPadding = 45;
 - (void)setCornerRadius:(float)cornerRadius
 {
     _cornerRadius = cornerRadius;
+    _alertView.layer.cornerRadius = cornerRadius;
 }
 
 - (void)setBordersColor:(UIColor *)bordersColor
@@ -480,13 +493,10 @@ const int kAlertPadding = 45;
     _bordersColor = bordersColor;
 
     _actionButton.layer.borderColor = bordersColor.CGColor;
-    [_actionButton setNeedsDisplay];
     
     _cancelButton.layer.borderColor = bordersColor.CGColor;
-    [_cancelButton setNeedsDisplay];
     
     _textField.layer.borderColor = bordersColor.CGColor;
-    [_textField setNeedsDisplay];
 }
 
 @end

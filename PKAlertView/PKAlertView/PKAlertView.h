@@ -32,8 +32,8 @@ typedef NS_ENUM(NSInteger, PKAlertViewAnimationStyle) {
 @property (nonatomic, assign) PKAlertViewAnimationStyle enterAnimationStyle;
 @property (nonatomic, assign) PKAlertViewType alertViewType;
 
-- (instancetype)initWithType:(PKAlertViewType)type Title:(NSAttributedString *)title description:(NSAttributedString *)description cancelButtonTitle:(NSAttributedString *)cancelButtonTitle actionButtonTitle:(NSAttributedString *)actionButtonTitle withCancelCompletion:(void (^)())cancelBlock withActionCompletion:(void (^)())actionBlock;
-- (instancetype)initWithType:(PKAlertViewType)type Title:(NSAttributedString *)title description:(NSAttributedString *)description actionButtonTitle:(NSAttributedString *)actionButtonTitle withActionCompletion:(void (^)())actionBlock;
+- (instancetype)initWithType:(PKAlertViewType)type title:(NSAttributedString *)title description:(NSAttributedString *)description cancelButtonTitle:(NSAttributedString *)cancelButtonTitle actionButtonTitle:(NSAttributedString *)actionButtonTitle withCancelCompletion:(void (^)())cancelBlock withActionCompletion:(void (^)(NSString *textFieldString))actionBlock;
+- (instancetype)initWithType:(PKAlertViewType)type title:(NSAttributedString *)title description:(NSAttributedString *)description actionButtonTitle:(NSAttributedString *)actionButtonTitle withActionCompletion:(void (^)())actionBlock;
 - (void)show;
 - (void)hide;
 
