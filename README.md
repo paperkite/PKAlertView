@@ -8,7 +8,7 @@ https://github.com/nicklockwood/FXBlurView
 
 ## Installation ##
 
-Simply add `PKAlertView.h + PKAlertView.m` and `PKAlertViewAppearance.h + PKAlertViewAppearance.m` to your xcode project and `#include PKAlertView.h` in the files you want to use PKAlertView. 
+Simply add `PKAlertView.h + PKAlertView.m` and `PKAppearance.h + PKAppearance.m` to your xcode project and `#include PKAlertView.h` in the files you want to use PKAlertView. 
 Now you're set to go!
 
 ## Usage ##
@@ -62,12 +62,16 @@ AlertView with single button :
 
 ```
 
-PKAlertViewAppearance
+PKAppearance
 ----------------
 
-You can use `PKAlertViewAppearance` to set your default configuration for every the alert view.
+You can use `PKAppearance` to set your default configuration for every the alert view.
 **Please refer to the section below to verify which property is compatible with PKAlertViewAppearance**
 
+Here is an example of how to use the PKAppearance
+```objective-c
+[[PKAlertView appearance] setTitleAttributes:@{ NSForegroundColorAttributeName: [UIColor redColor] }];
+```
 
 PKAlertView properties
 ----------------
