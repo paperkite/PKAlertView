@@ -8,7 +8,7 @@ https://github.com/nicklockwood/FXBlurView
 
 ## Installation ##
 
-Simply add `PKAlertView.h + PKAlertView.m` to your xcode project and `#include PKAlertView.h` in the files you want to use PKAlertView. 
+Simply add `PKAlertView.h + PKAlertView.m` and `PKAppearance.h + PKAppearance.m` to your xcode project and `#include PKAlertView.h` in the files you want to use PKAlertView. 
 Now you're set to go!
 
 ## Usage ##
@@ -62,11 +62,22 @@ AlertView with single button :
 
 ```
 
+PKAppearance
+----------------
+
+You can use `PKAppearance` to set your default configuration for every the alert view.
+**Please refer to the section below to verify which property is compatible with PKAlertViewAppearance**
+
+Here is an example of how to use the PKAppearance
+```objective-c
+[[PKAlertView appearance] setTitleAttributes:@{ NSForegroundColorAttributeName: [UIColor redColor] }];
+```
+
 PKAlertView properties
 ----------------
 
 
-#### alertViewType
+#### alertViewType 
 
 PKAlertView supports two types of alert :
 
@@ -103,9 +114,10 @@ PKAlertView supports two types of alert :
 ![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/screenshots/screenshot3.gif)
 ![PKAlertView](https://raw.githubusercontent.com/paperkite/PKAlertView/master/screenshots/screenshot4.gif)
 
-#### blurRadius
+#### blurRadius 
 
 * Control the blur of the background
+* Available into PKAlertViewAppearance
 
 ```objective-c
 
@@ -121,6 +133,7 @@ PKAlertView supports two types of alert :
 #### blurColor
 
 * The color of the blur in the background, use some alpha to let the background appear.
+* Available into PKAlertViewAppearance
 
 ```objective-c
 
@@ -136,6 +149,7 @@ PKAlertView supports two types of alert :
 #### bordersColor
 
 * The border of the button + the UITextField.
+* Available into PKAlertViewAppearance
 
 ```objective-c
 
@@ -151,6 +165,7 @@ PKAlertView supports two types of alert :
 #### alertBackgroundColor
 
 * The background of the alert box.
+* Available into PKAlertViewAppearance
 
 ```objective-c
 
@@ -166,6 +181,7 @@ PKAlertView supports two types of alert :
 #### cornerRadius
 
 * The corner radius of the alert box.
+* Available into PKAlertViewAppearance
 
 ```objective-c
 
@@ -181,7 +197,7 @@ PKAlertView supports two types of alert :
 #### textPadding
 
 * The padding for each text in the PKAlertView
-
+* Available into PKAlertViewAppearance
 
 #### textField
 
