@@ -8,6 +8,11 @@
 #import "PKAlertView.h"
 #import <Masonry/Masonry.h>
 
+typedef NS_ENUM(NSInteger, PKAlertViewButtonNumber) {
+    PKAlertViewSingleButton,
+    PKAlertViewTwoButtons,
+};
+
 @interface PKAlertView ()
 
 @property (nonatomic, strong) UIView *alertView; 
@@ -25,6 +30,7 @@
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *actionButton;
 
+@property (nonatomic, assign) PKAlertViewButtonNumber alertViewButtonNumber;
 @property (nonatomic, assign) NSInteger alertViewOffSet;
 
 @property (nonatomic, copy) void (^cancelBlock)();
@@ -62,6 +68,8 @@ const int kAlertPadding = 45;
         self.cancelBlock = cancelBlock;
         self.actionBlock = actionBlock;
         
+        self.alertViewButtonNumber = PKAlertViewTwoButtons;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 
         [self setupView];
@@ -89,6 +97,8 @@ const int kAlertPadding = 45;
         
         self.actionBlock = actionBlock;
         
+        self.alertViewButtonNumber = PKAlertViewSingleButton;
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
         
         [self setupView];
@@ -130,7 +140,12 @@ const int kAlertPadding = 45;
         make.centerX.equalTo(self.alertView.superview);
         make.centerY.equalTo(self.alertView.superview).with.offset(self.alertViewOffSet);
         make.width.equalTo(self.alertView.superview.mas_width).with.offset(-kAlertPadding);
-        make.bottom.equalTo(self.cancelButton.mas_bottom).with.offset(-1);
+        
+        if (self.alertViewButtonNumber == PKAlertViewSingleButton) {
+            make.bottom.equalTo(self.actionButton.mas_bottom).with.offset(-1);
+        } else {
+            make.bottom.equalTo(self.cancelButton.mas_bottom).with.offset(-1);
+        }
     }];
 
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -171,7 +186,7 @@ const int kAlertPadding = 45;
     }];
     
     // if there is a cancel title update the button
-    if (self.cancelButtonTitle) {
+    if (self.alertViewButtonNumber == PKAlertViewTwoButtons) {
         
         [self.cancelButton mas_updateConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.alertView);
@@ -427,9 +442,11 @@ const int kAlertPadding = 45;
         [_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [_cancelButton setAttributedTitle:self.cancelButtonTitle forState:UIControlStateNormal];
         
-        NSMutableAttributedString *cancelAttributedTitle = self.cancelButtonTitle.mutableCopy;
-        [cancelAttributedTitle addAttribute:NSForegroundColorAttributeName value:[[UIColor grayColor] colorWithAlphaComponent:0.5] range:NSMakeRange(0,cancelAttributedTitle.length)];
-        [_cancelButton setAttributedTitle:cancelAttributedTitle forState:UIControlStateHighlighted];
+        //TODO: Create the Highlited State
+        
+//        NSMutableAttributedString *cancelAttributedTitle = self.cancelButtonTitle.mutableCopy;
+//        [cancelAttributedTitle addAttribute:NSForegroundColorAttributeName value:[[UIColor grayColor] colorWithAlphaComponent:0.5] range:NSMakeRange(0,cancelAttributedTitle.length)];
+//        [_cancelButton setAttributedTitle:cancelAttributedTitle forState:UIControlStateHighlighted];
     }
     return _cancelButton;
 }
@@ -447,9 +464,11 @@ const int kAlertPadding = 45;
         [_actionButton addTarget:self action:@selector(actionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [_actionButton setAttributedTitle:self.actionButtonTitle forState:UIControlStateNormal];
        
-        NSMutableAttributedString *actionAttributedTitle = self.actionButtonTitle.mutableCopy;
-        [actionAttributedTitle addAttribute:NSForegroundColorAttributeName value:[[UIColor grayColor] colorWithAlphaComponent:0.5] range:NSMakeRange(0,actionAttributedTitle.length)];
-        [_actionButton setAttributedTitle:actionAttributedTitle forState:UIControlStateHighlighted];
+        //TODO: Create the Highlited State
+        
+//        NSMutableAttributedString *actionAttributedTitle = self.actionButtonTitle.mutableCopy;
+//        [actionAttributedTitle addAttribute:NSForegroundColorAttributeName value:[[UIColor grayColor] colorWithAlphaComponent:0.5] range:NSMakeRange(0,actionAttributedTitle.length)];
+//        [_actionButton setAttributedTitle:actionAttributedTitle forState:UIControlStateHighlighted];
     }
     return _actionButton;
 }
