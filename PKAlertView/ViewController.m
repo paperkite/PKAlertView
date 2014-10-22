@@ -51,34 +51,34 @@
 - (void)showAlert
 {
  
-//    PKAlertView *alertView = [[PKAlertView alloc]  initWithType:PKAlertViewTextField
-//                                                           title:[[NSMutableAttributedString alloc] initWithString:@"Bonjour"]
-//                                                     description:[[NSMutableAttributedString alloc] initWithString:@"Comment allez-vous ?"]
-//                                               cancelButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"Cancel"]
-//                                               actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
-//                                            withCancelCompletion:^{
-//                                                
-//                                            } withActionCompletion:^(NSString *textFieldString) {
-//
-//                                            }];
+    PKAlertView *alertView = [[PKAlertView alloc]  initWithType:PKAlertViewTextField
+                                                           title:[[NSMutableAttributedString alloc] initWithString:@"Bonjour"]
+                                                     description:[[NSMutableAttributedString alloc] initWithString:@"Comment allez-vous ?"]
+                                               cancelButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"Cancel"]
+                                               actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
+                                            withCancelCompletion:^{
+                                                
+                                            } withActionCompletion:^(NSString *textFieldString) {
+
+                                            }];
     
 //    [[PKAlertView appearance] setBlurColor:@{NSForegroundColorAttributeName : [UIColor redColor]}];
     
 //    [[PKAlertView appearance] setTitleAttributes:@{ NSForegroundColorAttributeName: [UIColor redColor] }];
-    
-    
-    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"login_password_confirm_title", nil)];
-    [title addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0,title.length)];
-    [title addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-Medium" size:20] range:NSMakeRange(0,title.length)];
-    
-    
-    PKAlertView *alertView = [[PKAlertView alloc]  initWithType:PKAlertViewPlain
-                                                          title:title
-                                                    description:[[NSMutableAttributedString alloc] initWithString:@"Comment allez-vous ?"]
-                                              actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
-                                            withActionCompletion:^(NSString *textFieldString) {
-                                               
-                                           }];
+//    
+//    
+//    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"login_password_confirm_title", nil)];
+//    [title addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0,title.length)];
+//    [title addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-Medium" size:20] range:NSMakeRange(0,title.length)];
+//    
+//    
+//    PKAlertView *alertView = [[PKAlertView alloc]  initWithType:PKAlertViewPlain
+//                                                          title:title
+//                                                    description:[[NSMutableAttributedString alloc] initWithString:@"Comment allez-vous ?"]
+//                                              actionButtonTitle:[[NSMutableAttributedString alloc] initWithString:@"OK"]
+//                                            withActionCompletion:^(NSString *textFieldString) {
+//                                               
+//                                           }];
 
 
     [alertView show];

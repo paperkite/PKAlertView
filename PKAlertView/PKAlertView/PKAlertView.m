@@ -130,7 +130,7 @@ const int kAlertPadding = 45;
         make.centerX.equalTo(self.alertView.superview);
         make.centerY.equalTo(self.alertView.superview).with.offset(self.alertViewOffSet);
         make.width.equalTo(self.alertView.superview.mas_width).with.offset(-kAlertPadding);
-        make.bottom.equalTo(self.actionButton.mas_bottom).with.offset(-1);
+        make.bottom.equalTo(self.cancelButton.mas_bottom).with.offset(-1);
     }];
 
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -157,39 +157,31 @@ const int kAlertPadding = 45;
         }];
 
     }
-
-    // if there is a cancel title update the button
-    if (self.cancelButtonTitle) {
-        
-        [self.cancelButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.alertView.mas_left).offset(-1);
-            make.width.equalTo(self.alertView.mas_width).dividedBy(2).offset(2);
-            make.height.equalTo(self.actionButton.mas_height);
-
-            if (self.alertViewType == PKAlertViewTextField) {
-                make.top.equalTo(self.textField.mas_bottom).with.offset(self.textPadding);
-            } else {
-                make.top.equalTo(self.descriptionLabel.mas_bottom).with.offset(self.textPadding);
-            }
-        }];
-    }
-
+    
     [self.actionButton mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.alertView.mas_right).with.offset(1); // hide left border
+        make.centerX.equalTo(self.alertView);
         make.height.equalTo(@42);
+        make.width.equalTo(self.alertView.mas_width).with.offset(3); // hide borders
 
         if (self.alertViewType == PKAlertViewTextField) {
             make.top.equalTo(self.textField.mas_bottom).with.offset(self.textPadding);
         } else {
             make.top.equalTo(self.descriptionLabel.mas_bottom).with.offset(self.textPadding);
         }
-        
-        if (self.cancelButtonTitle) {
-            make.width.equalTo(self.alertView.mas_width).dividedBy(2).offset(1);
-        } else {
-            make.width.equalTo(self.alertView.mas_width).with.offset(3); // hide borders
-        }
     }];
+    
+    // if there is a cancel title update the button
+    if (self.cancelButtonTitle) {
+        
+        [self.cancelButton mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.alertView);
+            make.width.equalTo(self.alertView.mas_width).with.offset(3); // hide borders
+            make.height.equalTo(self.actionButton.mas_height);
+            make.top.equalTo(self.actionButton.mas_bottom).with.offset(-1);
+        }];
+    }
+
+
 
     [super layoutSubviews];
 }
@@ -533,28 +525,45 @@ const int kAlertPadding = 45;
 #pragma mark - PKAppearance methods
 - (void)setTitleAttributes:(NSDictionary *)titleAttributes
 {
-    self.titleAttributedString = [[NSAttributedString alloc] initWithString:self.titleAttributedString.string attributes:titleAttributes];
-    self.titleLabel.attributedText = self.titleAttributedString;
+    if (self.titleAttributedString.string) {
+        self.titleAttributedString = [[NSAttributedString alloc] initWithString:self.titleAttributedString.string attributes:titleAttributes];
+        self.titleLabel.attributedText = self.titleAttributedString;
+    }
 }
 
 - (void)setDescriptionAttributes:(NSDictionary *)descriptionAttributes
 {
-    self.descriptionAttributedString = [[NSAttributedString alloc] initWithString:self.descriptionAttributedString.string attributes:descriptionAttributes];
-    self.descriptionLabel.attributedText = self.descriptionAttributedString;
+    if (self.descriptionAttributedString.string) {
+        self.descriptionAttributedString = [[NSAttributedString alloc] initWithString:self.descriptionAttributedString.string attributes:descriptionAttributes];
+        self.descriptionLabel.attributedText = self.descriptionAttributedString;
+    }
 }
 
 - (void)setCancelButtonAttributes:(NSDictionary *)cancelButtonAttributes
 {
-    self.cancelButtonTitle = [[NSAttributedString alloc] initWithString:self.cancelButtonTitle.string attributes:cancelButtonAttributes];
-    [self.cancelButton setAttributedTitle:self.cancelButtonTitle forState:UIControlStateNormal];
+    if (self.cancelButtonTitle.string) {
+        self.cancelButtonTitle = [[NSAttributedString alloc] initWithString:self.cancelButtonTitle.string attributes:cancelButtonAttributes];
+        [self.cancelButton setAttributedTitle:self.cancelButtonTitle forState:UIControlStateNormal];
+    }
 }
 
 - (void)setActionButtonAttributes:(NSDictionary *)actionButtonAttributes
 {
-    self.actionButtonTitle = [[NSAttributedString alloc] initWithString:self.actionButtonTitle.string attributes:actionButtonAttributes];
-    [self.actionButton setAttributedTitle:self.actionButtonTitle forState:UIControlStateNormal];
+    if (self.actionButtonTitle.string) {
+        self.actionButtonTitle = [[NSAttributedString alloc] initWithString:self.actionButtonTitle.string attributes:actionButtonAttributes];
+        [self.actionButton setAttributedTitle:self.actionButtonTitle forState:UIControlStateNormal];
+    }
 }
 
+- (void)setTextFieldBackgroundColor:(UIColor *)backgroundColor
+{
+    self.textField.backgroundColor = backgroundColor;
+}
+
+- (void)setTextFieldTextColor:(UIColor *)textColor
+{
+    self.textField.textColor = textColor;
+}
 
 #pragma mark - Class methods
 + (id)appearance
