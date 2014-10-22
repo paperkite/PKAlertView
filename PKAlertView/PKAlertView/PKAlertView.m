@@ -128,8 +128,10 @@ const int kAlertPadding = 45;
 
 - (void)layoutSubviews
 {
+
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.superview);
+        make.center.equalTo(self.superview);
     }];
     
     [self.backgroundBlurColorView mas_updateConstraints:^(MASConstraintMaker *make) {

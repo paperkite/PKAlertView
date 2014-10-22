@@ -28,14 +28,15 @@
     [self.button addTarget:self action:@selector(showAlert) forControlEvents:UIControlEventTouchUpInside];
     [self.button setTitle:@"Show Alert" forState:UIControlStateNormal];
     
-    self.backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"field"]];
+    self.backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"field.jpg"]];
     self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     
     [self.view addSubview:self.backgroundImageView];
     [self.view addSubview:self.button];
-
+        
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.view);
+        make.center.equalTo(self.view);
     }];
     
     [self.button mas_makeConstraints:^(MASConstraintMaker *make) {
