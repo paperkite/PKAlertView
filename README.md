@@ -70,7 +70,17 @@ You can use `PKAppearance` to set your default configuration for every the alert
 
 Here is an example of how to use the PKAppearance
 ```objective-c
-[[PKAlertView appearance] setTitleAttributes:@{ NSForegroundColorAttributeName: [UIColor redColor] }];
+    [[PKAlertView appearance] setTitleAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:20] }];
+    [[PKAlertView appearance] setDescriptionAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17] }];
+    [[PKAlertView appearance] setCancelButtonAttributes:@{ NSForegroundColorAttributeName: [UIColor colorWithRed:0 green:0.475f blue:1 alpha:1], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:17] }];
+    [[PKAlertView appearance] setActionButtonAttributes:@{ NSForegroundColorAttributeName: [UIColor colorWithRed:0 green:0.475f blue:1 alpha:1], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Medium" size:17] }];
+    [[PKAlertView appearance] setBlurColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+    [[PKAlertView appearance] setAlertBackgroundColor:[UIColor blackColor]];
+    [[PKAlertView appearance] setCornerRadius:0];
+    [[PKAlertView appearance] setBordersColor:[UIColor colorWithRed:0.635f green:0.635f blue:0.635f alpha:1]];
+    [[PKAlertView appearance] setTextPadding:15];
+    [[PKAlertView appearance] setTextFieldBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
+    [[PKAlertView appearance] setTextFieldTextColor:[UIColor colorWithRed:0.635f green:0.635f blue:0.635f alpha:1]];
 ```
 
 PKAlertView properties
