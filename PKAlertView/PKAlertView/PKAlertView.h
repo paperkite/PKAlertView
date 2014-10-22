@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <FXBlurView/FXBlurView.h>
+#import "PKAppearance.h"
 
 typedef NS_ENUM(NSInteger, PKAlertViewType) {
     PKAlertViewPlain,
@@ -37,5 +38,13 @@ typedef NS_ENUM(NSInteger, PKAlertViewAnimationStyle) {
 - (instancetype)initWithType:(PKAlertViewType)type title:(NSAttributedString *)title description:(NSAttributedString *)description actionButtonTitle:(NSAttributedString *)actionButtonTitle withActionCompletion:(void (^)())actionBlock;
 - (void)show;
 - (void)hide;
+
+# pragma mark - Add method for PKAppearance
++ (id)appearance;
+
+- (void)setTitleAttributes:(NSDictionary *)titleAttributes;
+- (void)setDescriptionAttributes:(NSDictionary *)descriptionAttributes;
+- (void)setCancelButtonAttributes:(NSDictionary *)cancelButtonAttributes;
+- (void)setActionButtonAttributes:(NSDictionary *)actionButtonAttributes;
 
 @end

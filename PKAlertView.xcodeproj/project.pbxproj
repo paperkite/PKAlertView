@@ -15,6 +15,7 @@
 		162A568119F46604007B243E /* PKAlertViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 162A568019F46604007B243E /* PKAlertViewTests.m */; };
 		164CC40919F468D300CEA4A5 /* PKAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 164CC40819F468D300CEA4A5 /* PKAlertView.m */; };
 		16816A5819F612E3008DC888 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16816A5719F612E3008DC888 /* QuartzCore.framework */; };
+		168652CD19F73C9400BB6DB8 /* PKAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 168652CC19F73C9400BB6DB8 /* PKAppearance.m */; };
 		CFFF498EE96A155BCD04EF82 /* libPods-PKAlertView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B26983302BC6B38C0FA2198C /* libPods-PKAlertView.a */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,8 @@
 		164CC40719F468D300CEA4A5 /* PKAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAlertView.h; sourceTree = "<group>"; };
 		164CC40819F468D300CEA4A5 /* PKAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKAlertView.m; sourceTree = "<group>"; };
 		16816A5719F612E3008DC888 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		168652CB19F73C9400BB6DB8 /* PKAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAppearance.h; sourceTree = "<group>"; };
+		168652CC19F73C9400BB6DB8 /* PKAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKAppearance.m; sourceTree = "<group>"; };
 		6A5685A64D27E2B203B7E2A3 /* Pods-PKAlertView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PKAlertView.release.xcconfig"; path = "Pods/Target Support Files/Pods-PKAlertView/Pods-PKAlertView.release.xcconfig"; sourceTree = "<group>"; };
 		B26983302BC6B38C0FA2198C /* libPods-PKAlertView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PKAlertView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB6F14A0F8368603D2620C1C /* Pods-PKAlertView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PKAlertView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PKAlertView/Pods-PKAlertView.debug.xcconfig"; sourceTree = "<group>"; };
@@ -133,6 +136,8 @@
 		164CC40619F4686600CEA4A5 /* PKAlertView */ = {
 			isa = PBXGroup;
 			children = (
+				168652CB19F73C9400BB6DB8 /* PKAppearance.h */,
+				168652CC19F73C9400BB6DB8 /* PKAppearance.m */,
 				164CC40719F468D300CEA4A5 /* PKAlertView.h */,
 				164CC40819F468D300CEA4A5 /* PKAlertView.m */,
 			);
@@ -295,6 +300,7 @@
 				162A566A19F46604007B243E /* AppDelegate.m in Sources */,
 				164CC40919F468D300CEA4A5 /* PKAlertView.m in Sources */,
 				162A566719F46604007B243E /* main.m in Sources */,
+				168652CD19F73C9400BB6DB8 /* PKAppearance.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

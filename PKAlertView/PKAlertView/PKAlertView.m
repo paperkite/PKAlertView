@@ -197,6 +197,9 @@ const int kAlertPadding = 45;
 # pragma mark - Show / Hide
 - (void)show
 {
+    // apply style 
+    [[[self class] appearance] startForwarding:self];
+
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
 
     self.alpha = 0;
@@ -330,7 +333,9 @@ const int kAlertPadding = 45;
 - (void)textFieldFinished:(id)sender
 {
     [sender resignFirstResponder];
+    [self actionButtonAction:nil];
 }
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     
@@ -429,6 +434,10 @@ const int kAlertPadding = 45;
         [_cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_cancelButton addTarget:self action:@selector(cancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [_cancelButton setAttributedTitle:self.cancelButtonTitle forState:UIControlStateNormal];
+        
+        NSMutableAttributedString *cancelAttributedTitle = self.cancelButtonTitle.mutableCopy;
+        [cancelAttributedTitle addAttribute:NSForegroundColorAttributeName value:[[UIColor grayColor] colorWithAlphaComponent:0.5] range:NSMakeRange(0,cancelAttributedTitle.length)];
+        [_cancelButton setAttributedTitle:cancelAttributedTitle forState:UIControlStateHighlighted];
     }
     return _cancelButton;
 }
@@ -445,6 +454,10 @@ const int kAlertPadding = 45;
         [_actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_actionButton addTarget:self action:@selector(actionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [_actionButton setAttributedTitle:self.actionButtonTitle forState:UIControlStateNormal];
+       
+        NSMutableAttributedString *actionAttributedTitle = self.actionButtonTitle.mutableCopy;
+        [actionAttributedTitle addAttribute:NSForegroundColorAttributeName value:[[UIColor grayColor] colorWithAlphaComponent:0.5] range:NSMakeRange(0,actionAttributedTitle.length)];
+        [_actionButton setAttributedTitle:actionAttributedTitle forState:UIControlStateHighlighted];
     }
     return _actionButton;
 }
@@ -516,5 +529,38 @@ const int kAlertPadding = 45;
     
     _textField.layer.borderColor = bordersColor.CGColor;
 }
+
+#pragma mark - PKAppearance methods
+- (void)setTitleAttributes:(NSDictionary *)titleAttributes
+{
+    self.titleAttributedString = [[NSAttributedString alloc] initWithString:self.titleAttributedString.string attributes:titleAttributes];
+    self.titleLabel.attributedText = self.titleAttributedString;
+}
+
+- (void)setDescriptionAttributes:(NSDictionary *)descriptionAttributes
+{
+    self.descriptionAttributedString = [[NSAttributedString alloc] initWithString:self.descriptionAttributedString.string attributes:descriptionAttributes];
+    self.descriptionLabel.attributedText = self.descriptionAttributedString;
+}
+
+- (void)setCancelButtonAttributes:(NSDictionary *)cancelButtonAttributes
+{
+    self.cancelButtonTitle = [[NSAttributedString alloc] initWithString:self.cancelButtonTitle.string attributes:cancelButtonAttributes];
+    [self.cancelButton setAttributedTitle:self.cancelButtonTitle forState:UIControlStateNormal];
+}
+
+- (void)setActionButtonAttributes:(NSDictionary *)actionButtonAttributes
+{
+    self.actionButtonTitle = [[NSAttributedString alloc] initWithString:self.actionButtonTitle.string attributes:actionButtonAttributes];
+    [self.actionButton setAttributedTitle:self.actionButtonTitle forState:UIControlStateNormal];
+}
+
+
+#pragma mark - Class methods
++ (id)appearance
+{
+    return [PKAppearance appearanceForClass:[self class]];
+}
+
 
 @end
