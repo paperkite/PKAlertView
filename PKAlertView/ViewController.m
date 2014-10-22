@@ -33,7 +33,7 @@
     
     [self.view addSubview:self.backgroundImageView];
     [self.view addSubview:self.button];
-        
+    
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.view);
         make.center.equalTo(self.view);
