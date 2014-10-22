@@ -1,6 +1,11 @@
 # PKAlertView - Work In Progress
 PKAlertView is a drop-in replacement for UIAlertView that allows the developer to customize the presentation of an alert.
 
+## TO DO ##
+
+* Create a pod
+* Clean & improve the code
+
 ## Dependencies ##
 https://github.com/Masonry/Masonry
 
