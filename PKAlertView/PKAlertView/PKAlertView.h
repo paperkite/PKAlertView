@@ -48,5 +48,6 @@ typedef NS_ENUM(NSInteger, PKAlertViewAnimationStyle) {
 - (void)setActionButtonAttributes:(NSDictionary *)actionButtonAttributes;
 - (void)setTextFieldBackgroundColor:(UIColor *)backgroundColor;
 - (void)setTextFieldTextColor:(UIColor *)textColor;
+- (void)setTextFieldPlaceholderColor:(UIColor *)textColor;
 
 @end
