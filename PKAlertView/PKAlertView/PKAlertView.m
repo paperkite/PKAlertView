@@ -591,6 +591,11 @@ const int kAlertPadding = 45;
     self.textField.textColor = textColor;
 }
 
+- (void)setTextFieldPlaceholderColor:(UIColor *)textColor
+{
+    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.textField.placeholder attributes:@{ NSForegroundColorAttributeName:textColor }];
+}
+
 #pragma mark - Class methods
 + (id)appearance
 {
