@@ -86,6 +86,8 @@ Here is an example of how to use the PKAppearance
     [[PKAlertView appearance] setTextPadding:15];
     [[PKAlertView appearance] setTextFieldBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5]];
     [[PKAlertView appearance] setTextFieldTextColor:[UIColor colorWithRed:0.635f green:0.635f blue:0.635f alpha:1]];
+    [[PKAlertView appearance] setTextFieldPlaceholderColor:[UIColor colorWithRed:0.635f green:0.635f blue:0.635f alpha:0.5]];
+
 ```
 
 PKAlertView properties
